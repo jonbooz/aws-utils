@@ -3,26 +3,17 @@
 var AWS = require('./aws.js');
 const FastSet = require('collections/fast-set');
 
-module.exports = function(stackName, namedResources, otherAWS) {
-    if (typeof otherAWS !== 'undefined') {
-        AWS = otherAWS;
-    }
-
-    const cloudformation = new AWS.CloudFormation();
-
+module.exports = function(stackName, namedResources) {
     var params = {
         StackName: stackName
     };
 
+    const cloudformation = new AWS.CloudFormation();
     return new Promise((resolve, reject) => {
-        cloudformation.describeStackResources(params, (err, data) => {
-            if (err) {
-                reject(err);
-            } else {
-                const resources = processResources(data, namedResources);
-                resolve(resources);
-            }
-        });
+        AWS.call(cloudformation, 'describeStackResources', params)
+            .then(data => processResources(data, namedResources))
+            .then(resolve)
+            .catch(reject);
     });
 }
 
