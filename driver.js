@@ -15,8 +15,15 @@ awsUtils.resources('credentials', namedResources)
 
 async function getResources() {
     let resources = await awsUtils.resources('credentials', namedResources);
-    console.log(resources);
+    var object = {
+        name: 'test',
+        value: 'value'
+    }
+    let saveResponse = await awsUtils.ddb.save(resources.credentialsTable, object);
+    let value = await awsUtils.ddb.read(resources.credentialsTable, {name: 'test'});
+    console.log(value);
 }
+
 
 getResources();
 

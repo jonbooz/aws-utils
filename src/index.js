@@ -1,6 +1,7 @@
 'use strict';
 
 const AWS = require('./aws.js');
+const ddb = require('./ddb.js');
 const resources = require('./resources.js');
 
 module.exports = {
@@ -12,6 +13,12 @@ module.exports = {
      * or attributes.
      */
     AWS: AWS,
+
+    /**
+     * This module provides access to DynamoDB tables and can automatically
+     * encode/decode a JSON object into a valid DynamoDB object.
+     */
+    ddb: ddb,
 
     /**
      * This is a utility method for accessing CloudFormation resources.
