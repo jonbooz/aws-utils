@@ -17,7 +17,8 @@
     ],
     "scripts": {
         "test": "npm run test-unit",
-        "test-unit": "NODE_ENV=test mocha --require co-mocha 'src/*.spec.js'"
+        "test-unit": "NODE_ENV=test mocha --require co-mocha 'src/*.spec.js'",
+        "test-integ": "NODE_ENV=test mocha --require co-mocha 'src/*.integ.js'"
     },
     "dependencies": {
         "collections": "latest",
