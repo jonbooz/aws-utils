@@ -31,6 +31,9 @@ module.exports = function(grunt) {
             }
         },
         exec: {
+            test: {
+                cmd: 'npm test'
+            },
             install_modules: {
                 cwd: 'build/',
                 cmd: 'npm install --production'
@@ -60,7 +63,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-contrib-compress');
 
-    grunt.registerTask('test', ['jshint']);
+    grunt.registerTask('test', ['exec:test']);
     grunt.registerTask('js', ['test', 'copy:js']);
     grunt.registerTask('dist', ['clean', 'js', 'exec:install_modules', 'copy:modules']);
     grunt.registerTask('upload', ['compress', 'exec:upload_options_package']);

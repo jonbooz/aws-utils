@@ -13,7 +13,7 @@ AWS.config.update({
     }
 });
 
-AWS['call'] = function(service, api, params) {
+AWS.call = function(service, api, params) {
     return new Promise((resolve, reject) => {
         service[api](params, (err, data) => {
             if (err) {
@@ -23,6 +23,6 @@ AWS['call'] = function(service, api, params) {
             }
         });
     });
-}
+};
 
 module.exports = AWS;

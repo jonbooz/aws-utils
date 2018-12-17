@@ -15,6 +15,10 @@
         "test",
         "tests"
     ],
+    "scripts": {
+        "test": "npm run test-unit",
+        "test-unit": "NODE_ENV=test mocha --require co-mocha 'src/*.spec.js'"
+    },
     "dependencies": {
         "collections": "latest",
         "node-datetime": "latest",
@@ -26,6 +30,10 @@
         "grunt-contrib-copy": "latest",
         "grunt-contrib-jshint": "latest",
         "grunt-exec": "latest",
-        "grunt-contrib-compress": "latest"
+        "grunt-contrib-compress": "latest",
+        "mocha": "latest",
+        "co-mocha": "latest",
+        "chai": "latest",
+        "sinon": "latest"
     }
 }

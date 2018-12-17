@@ -42,9 +42,14 @@ const fromDynamoDBObject = function(ddbObject) {
 const toDynamoDBObject = function(object) {
     var ddbObject = { };
     for (let key in object) {
-        const value = object[key];
+        var value = object[key];
+        const type = getType(value);
+        if (type === 'N') {
+            value = value+''; // N's need to be strings
+        }
+
         ddbObject[key] = { };
-        ddbObject[key][getType(value)] = value;
+        ddbObject[key][type] = value;
     }
     return ddbObject;
 }
