@@ -1,4 +1,4 @@
-const aws = require('./awsUtils.js');
+const aws = require('../awsUtils.js');
 
 const sinon = require('sinon');
 const chai = require('chai');
@@ -32,7 +32,7 @@ describe('ddb', () => {
             resolve({ Item: DYNAMO_OBJECT });
         }));
 
-        const res = await ddb.read(aws, 'table', { name: 'name' });
+        const res = await ddb._read(aws, 'table', { name: 'name' });
         expect(res).to.eql(JSON_OBJECT);
     });
 });

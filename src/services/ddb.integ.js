@@ -1,4 +1,4 @@
-const AwsUtils = require('./awsUtils.js');
+const AwsUtils = require('../awsUtils.js');
 const datetime = require('node-datetime');
 
 const chai = require('chai');

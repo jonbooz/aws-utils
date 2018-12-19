@@ -1,6 +1,13 @@
 'use strict';
 
 module.exports = {
+
+    _register: function(aws) {
+        aws.ddb = this;
+        aws.ddb.save = this._save;
+        aws.ddb.read = this._read;
+    },
+
     /**
      * Save the given JSON object to DynamoDB.
      * 
@@ -22,7 +29,7 @@ module.exports = {
      * @param {string} table 
      * @param {object} object 
      */
-    save: function(aws, table, object) {
+    _save: function(aws, table, object) {
         var params = {
             Item: toDynamoDBObject(object),
             TableName: table
@@ -55,7 +62,7 @@ module.exports = {
      * @param {string} table 
      * @param {object} key 
      */
-    read: function(aws, table, key) {
+    _read: function(aws, table, key) {
         var params = {
             Key: toDynamoDBObject(key),
             TableName: table

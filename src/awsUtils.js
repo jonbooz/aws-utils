@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const _ = require('lodash');
 
-const ddb = require('./ddb.js');
+const ddb = require('./services/ddb.js');
 
 const DEFAULT_PROFILE = 'default';
 const DEFAULT_REGION = 'us-west-2';
@@ -35,8 +35,7 @@ module.exports = class AwsUtils {
         });
 
         this.aws = AWS;
-
-        this.ddb = ddb;
+        ddb._register(this);
     }
 
     /**
