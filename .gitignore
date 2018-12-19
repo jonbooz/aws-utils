@@ -65,3 +65,7 @@ package-lock.json
 
 # Ignore config file that contains credentials
 config.js
+
+# TypeScript files
+.tscache
+build/

@@ -1,27 +1,24 @@
-const AWS = require('./aws.js');
+const AwsUtils = require('./awsUtils.js');
 const datetime = require('node-datetime');
 
 const chai = require('chai');
-const expect = require('chai').expect;
-
-const resources = require('./resources.js');
-const ddb = require('./ddb.js');
+const expect = chai.expect;
 
 const STACK_NAME = 'credentials';
-const STACK_RESOURCES = [
-    'credentialsKeyAlias',
-    'credentialsTable'
-];
 
 describe('ddb', () => {
     it('writes and reads from DynamoDB', async () => {
-        let rsrcs = await resources(STACK_NAME, STACK_RESOURCES);
+        const aws = new AwsUtils()
+        const resources = await aws.listStackResources(STACK_NAME);
         var object = {
             name: 'test',
-            value: datetime.create().format('Y-m-d H:I:S')
+            value: datetime.create().format('Y-m-d H:I:S'),
+            bool: true,
+            otherBool: false,
+            number: 3.14
         }
-        let saveResponse = await ddb.save(rsrcs.credentialsTable, object);
-        let res = await ddb.read(rsrcs.credentialsTable, {name: 'test'});
+        await aws.ddb.save(aws, resources.credentialsTable, object);
+        let res = await aws.ddb.read(aws, resources.credentialsTable, {name: 'test'});
         expect(res).to.eql(object);
     });
 });

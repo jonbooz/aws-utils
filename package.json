@@ -7,7 +7,7 @@
     "description": "",
     "license": "AllRightsReserved",
     "private": true,
-    "main": "src/index.js",
+    "main": "src/awsUtils.js",
     "ignore": [
         "**/.*",
         "build",
@@ -23,7 +23,8 @@
     "dependencies": {
         "collections": "latest",
         "node-datetime": "latest",
-        "aws-sdk": "latest"
+        "aws-sdk": "latest",
+        "lodash": "latest"
     },
     "devDependencies": {
         "grunt": "latest",
@@ -32,9 +33,12 @@
         "grunt-contrib-jshint": "latest",
         "grunt-exec": "latest",
         "grunt-contrib-compress": "latest",
+        "grunt-ts": "latest",
         "mocha": "latest",
         "co-mocha": "latest",
         "chai": "latest",
-        "sinon": "latest"
+        "sinon": "latest",
+        "@types/collections": "latest",
+        "@types/chai": "latest"
     }
 }

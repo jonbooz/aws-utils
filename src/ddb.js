@@ -1,28 +1,67 @@
 'use strict';
 
-const AWS = require('./aws.js');
-const DynamoDB = new AWS.DynamoDB();
-
 module.exports = {
-    save: function(table, object) {
+    /**
+     * Save the given JSON object to DynamoDB.
+     * 
+     * This method will convert the object into an appropriate
+     * DynamoDB object, making assumptions about the DDB types
+     * based on the type of the JSON data.
+     * 
+     * This conversion will hold to the contract:
+     * 
+     * `x == read(save(x))`
+     * 
+     * and:
+     * 
+     * `y == save(read(y))`
+     * 
+     * where `x` is the JSON object and `y` is the DDB object.
+     * 
+     * @param {AwsUtils} aws 
+     * @param {string} table 
+     * @param {object} object 
+     */
+    save: function(aws, table, object) {
         var params = {
             Item: toDynamoDBObject(object),
             TableName: table
         };
         return new Promise((resolve, reject) => {
-            AWS.call(DynamoDB, 'putItem', params)
+            aws.call('DynamoDB', 'putItem', params)
                 .then(resolve)
                 .catch(reject);
         });
     },
 
-    read: function(table, key) {
+    /**
+     * Reads the value for the `key` from DynamoDB.
+     * 
+     * This method will convert the object into an appropriate
+     * JSON object, using the typing information from the DDB
+     * object.
+     * 
+     * This conversion will hold to the contract:
+     * 
+     * `x == read(save(x))`
+     * 
+     * and:
+     * 
+     * `y == save(read(y))`
+     * 
+     * where `x` is the JSON object and `y` is the DDB object.
+ 
+     * @param {AwsUtils} aws 
+     * @param {string} table 
+     * @param {object} key 
+     */
+    read: function(aws, table, key) {
         var params = {
             Key: toDynamoDBObject(key),
             TableName: table
         };
         return new Promise((resolve, reject) => {
-            AWS.call(DynamoDB, 'getItem', params)
+            aws.call('DynamoDB', 'getItem', params)
                 .then(data => fromDynamoDBObject(data.Item))
                 .then(resolve)
                 .catch(reject);
