@@ -1,18 +1,18 @@
-const AwsUtils = require('../awsUtils.js');
-const datetime = require('node-datetime');
+import * as AwsUtils from './awsUtils';
 
-const chai = require('chai');
+import chai = require('chai');
 const expect = chai.expect;
+
+import 'mocha';
 
 const STACK_NAME = 'credentials';
 
-describe('ddb', () => {
-    it('writes and reads from DynamoDB', async () => {
+describe('Typed AwsUtils', () => {
+    it('gets resources and writes/reads to DynamoDB', async () => {
         const aws = new AwsUtils()
         const resources = await aws.listStackResources(STACK_NAME);
         var object = {
             name: 'test',
-            value: datetime.create().format('Y-m-d H:I:S'),
             bool: true,
             otherBool: false,
             number: 3.14

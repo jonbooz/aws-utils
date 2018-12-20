@@ -8,6 +8,7 @@
     "license": "AllRightsReserved",
     "private": true,
     "main": "src/awsUtils.js",
+    "types": "src/awsUtils.d.ts",
     "ignore": [
         "**/.*",
         "build",
@@ -16,15 +17,17 @@
         "tests"
     ],
     "scripts": {
-        "test": "npm run test-unit && npm run test-integ",
+        "test": "tsc && npm run test-unit && npm run test-integ && npm run test-types",
         "test-unit": "NODE_ENV=test mocha --require co-mocha 'src/**/*.spec.js'",
-        "test-integ": "NODE_ENV=test mocha --require co-mocha 'src/**/*.integ.js'"
+        "test-integ": "NODE_ENV=test mocha --require co-mocha 'src/**/*.integ.js'",
+        "test-types": "NODE_ENV=test mocha --require co-mocha 'src/**/*.types.js'"
     },
     "dependencies": {
-        "collections": "latest",
         "node-datetime": "latest",
         "aws-sdk": "latest",
-        "lodash": "latest"
+        "lodash": "latest",
+        "typescript": "latest",
+        "@types/lodash": "latest"
     },
     "devDependencies": {
         "grunt": "latest",
@@ -38,7 +41,7 @@
         "co-mocha": "latest",
         "chai": "latest",
         "sinon": "latest",
-        "@types/collections": "latest",
-        "@types/chai": "latest"
+        "@types/chai": "latest",
+        "@types/mocha": "latest"
     }
 }

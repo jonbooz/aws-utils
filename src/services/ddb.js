@@ -2,10 +2,13 @@
 
 module.exports = {
 
+    /**
+     * @param {AwsUtils} aws
+     */
     _register: function(aws) {
         aws.ddb = this;
-        aws.ddb.save = this._save;
-        aws.ddb.read = this._read;
+        aws.ddb.save = (table, object) => this._save(aws, table, object);
+        aws.ddb.read = (table, key) => this._read(aws, table, key);
     },
 
     /**

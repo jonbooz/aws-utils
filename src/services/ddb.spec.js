@@ -1,7 +1,6 @@
 const aws = require('../awsUtils.js');
 
 const sinon = require('sinon');
-const chai = require('chai');
 const expect = require('chai').expect;
 
 const ddb = require('./ddb.js');
