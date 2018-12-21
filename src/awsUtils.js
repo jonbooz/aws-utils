@@ -36,6 +36,8 @@ module.exports = class AwsUtils {
             }
         });
 
+        this._resources = { };
+
         this.aws = AWS;
         ddb._register(this);
     }
@@ -91,10 +93,18 @@ module.exports = class AwsUtils {
      * @return {_.Dictionary<string>}
      */
     async listStackResources(stackName) {
+        if (this._resources.hasOwnProperty(stackName)) {
+            return this._resources[stackName];
+        }
+
         return this.call('CloudFormation', 'describeStackResources', {StackName: stackName})
             .then(data => data.StackResources)
             .then(stackResources => stackResources.map((r) => [r.LogicalResourceId, r.PhysicalResourceId]))
-            .then(stackResources => _.fromPairs(stackResources));
+            .then(stackResources => {
+                const resources = _.fromPairs(stackResources);
+                this._resources[stackName] = resources;
+                return resources;
+            });
     }
 
 }

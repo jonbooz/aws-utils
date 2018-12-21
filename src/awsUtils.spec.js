@@ -67,9 +67,29 @@ describe('AwsUtils', () => {
             resolve(STACK_RESOURCE_RESULT);
         }));
 
-        const res = await this.aws.listStackResources('name', ['logical', 'LOGICAL']);
+        const res = await this.aws.listStackResources('name');
         expect(res).to.eql(EXPECTED_STACK_RESOURCES);
+    });
 
+    it('reads stack resources - and caches them', async () => {
+        const stackName = 'name';
+
+        const awsMock = this.sandbox.mock(this.aws);
+        const cfnDescribeMock = awsMock.expects('call');
+        cfnDescribeMock
+                .once()
+                .returns(new Promise((resolve, reject) => {
+                        resolve(STACK_RESOURCE_RESULT);
+                    }));
+
+        const first = await this.aws.listStackResources(stackName);
+        expect(first).to.eql(EXPECTED_STACK_RESOURCES);
+        const second = await this.aws.listStackResources(stackName);
+        expect(second).to.eql(first);
+
+        expect(this.aws._resources[stackName]).to.equal(second);
+
+        awsMock.verify();
     });
 
     it('reads stack resources - error', async () => {
