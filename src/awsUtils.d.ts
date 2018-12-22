@@ -21,5 +21,7 @@ declare namespace AwsUtils {
         save(table: string, object: any): Promise<any>;
 
         read(table: string, key: any): Promise<any>;
+
+        scan(table: string, expression: string, values: _.Dictionary<any>, names: _.Dictionary<string>): _.Dictionary<any>[];
     }
 }

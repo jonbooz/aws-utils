@@ -17,8 +17,15 @@ describe('Typed AwsUtils', () => {
             otherBool: false,
             number: 3.14
         }
+        const expression = 'begins_with(#n, :v1)';
+        const values = { ':v1': 'test' };
+        const names = { '#n': 'name'};
+
         await aws.ddb.save(resources.credentialsTable, object);
         let res = await aws.ddb.read(resources.credentialsTable, {name: 'test'});
         expect(res).to.eql(object);
+
+        let scanRes = await aws.ddb.scan(resources.credentialsTable, expression, values, names);
+        expect(scanRes).to.eql([object]);
     });
 });
