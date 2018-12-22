@@ -9,6 +9,7 @@ module.exports = {
         aws.ddb = this;
         aws.ddb.save = (table, object) => this._save(aws, table, object);
         aws.ddb.read = (table, key) => this._read(aws, table, key);
+        aws.ddb.scan = (table, expression, values, names) => this._scan(aws, table, expression, values, names);
     },
 
     /**
@@ -63,7 +64,7 @@ module.exports = {
  
      * @param {AwsUtils} aws 
      * @param {string} table 
-     * @param {object} key 
+     * @param {_.Dictionary<any>} key 
      */
     _read: function(aws, table, key) {
         var params = {
@@ -73,6 +74,32 @@ module.exports = {
         return new Promise((resolve, reject) => {
             aws.call('DynamoDB', 'getItem', params)
                 .then(data => fromDynamoDBObject(data.Item))
+                .then(resolve)
+                .catch(reject);
+        });
+    },
+
+    /**
+     * 
+     * @param {AwsUtils} aws
+     * @param {string} table
+     * @param {string} expression
+     * @param {_.Dictionary<any>} values
+     */
+    _scan: function(aws, table, expression, values, names) {
+        const params = {
+            TableName: table,
+            FilterExpression: expression,
+            ExpressionAttributeValues: toDynamoDBObject(values)
+        };
+        if (typeof names !== 'undefined') {
+            params.ExpressionAttributeNames = names
+        }
+
+        return new Promise((resolve, reject) => {
+            aws.call('DynamoDB', 'scan', params)
+                .then(data => data.Items)
+                .then(items => items.map((i) => fromDynamoDBObject(i)))
                 .then(resolve)
                 .catch(reject);
         });

@@ -75,7 +75,7 @@ module.exports = class AwsUtils {
         this.useService(serviceName);
         return new Promise((resolve, reject) => {
             this[serviceName][method](params, (err, data) => {
-               if (err) {
+                if (err) {
                     reject(err);
                 } else {
                     resolve(data);
