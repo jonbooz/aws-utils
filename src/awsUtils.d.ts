@@ -12,6 +12,7 @@ declare class AwsUtils {
     listStackResources(stackName: string): Promise<_.Dictionary<string>>;
 
     ddb: AwsUtils.DynamoDB;
+    ses: AwsUtils.SES;
 }
 
 declare namespace AwsUtils {
@@ -23,5 +24,11 @@ declare namespace AwsUtils {
         read(table: string, key: any): Promise<any>;
 
         scan(table: string, expression: string, values: _.Dictionary<any>, names: _.Dictionary<string>): _.Dictionary<any>[];
+    }
+
+    export class SES {
+        _register(aws: AwsUtils): void;
+
+        sendEmail(subject: string, messageBody: string, source: string, recipients: [string]): Promise<any>;
     }
 }

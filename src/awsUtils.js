@@ -2,6 +2,7 @@ const AWS = require('aws-sdk');
 const _ = require('lodash');
 
 const ddb = require('./services/ddb.js');
+const ses = require('./services/ses.js');
 
 const DEFAULT_PROFILE = 'default';
 const DEFAULT_REGION = 'us-west-2';
@@ -32,7 +33,8 @@ module.exports = class AwsUtils {
             apiVersions: {
                 cloudformation: '2010-05-15',
                 dynamodb: '2012-08-10',
-                kms: '2014-11-01'
+                kms: '2014-11-01',
+                ses: '2010-12-01'
             }
         });
 
@@ -40,6 +42,7 @@ module.exports = class AwsUtils {
 
         this.aws = AWS;
         ddb._register(this);
+        ses._register(this);
     }
 
     /**
