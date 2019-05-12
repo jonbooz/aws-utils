@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 export = AwsUtils;
 
 declare class AwsUtils {
-    constructor(profile?: string, region?: string);
+    constructor(provideCredentials?: boolean, region?: string, profile?: string);
 
     useService(serviceName: string): void;
 

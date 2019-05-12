@@ -15,28 +15,34 @@ const DEFAULT_REGION = 'us-west-2';
 module.exports = class AwsUtils {
     /**
      *
-     * @param {string?} profile : The AWS credentials file profile to use.
+     * @param {boolean?} provideCredentials : Whether to provide credentials.
      * @param {string?} region : the AWS region to use
+     * @param {string?} profile : The AWS credentials file profile to use.
      */
-    constructor(profile, region) {
-        if (typeof profile === 'undefined') {
-            profile = DEFAULT_PROFILE;
-        }
+    constructor(provideCredentials, region, profile) {
         if (typeof region === 'undefined') {
             region = DEFAULT_REGION;
         }
 
-        const credentials = new AWS.SharedIniFileCredentials({profile: profile});
-        AWS.config.update({
+        const configParams = {
             region: region,
-            credentials: credentials,
             apiVersions: {
                 cloudformation: '2010-05-15',
                 dynamodb: '2012-08-10',
                 kms: '2014-11-01',
                 ses: '2010-12-01'
             }
-        });
+        }
+
+        if (provideCredentials) {
+            if (typeof profile === 'undefined') {
+                profile = DEFAULT_PROFILE;
+            }
+            const credentials = new AWS.SharedIniFileCredentials({profile: profile});
+            configParams.credentials = credentials;
+        }
+
+        AWS.config.update(configParams);
 
         this._resources = { };
 
