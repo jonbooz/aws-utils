@@ -13,6 +13,7 @@ declare class AwsUtils {
 
     ddb: AwsUtils.DynamoDB;
     ses: AwsUtils.SES;
+    s3: AwsUtils.S3;
 }
 
 declare namespace AwsUtils {
@@ -30,5 +31,11 @@ declare namespace AwsUtils {
         _register(aws: AwsUtils): void;
 
         sendEmail(subject: string, messageBody: string, source: string, recipients: [string]): Promise<any>;
+    }
+
+    export class S3 {
+        _register(aws: AwsUtils): void;
+
+        getObject(bucket: string, key: string): Promise<any>;
     }
 }
