@@ -8,15 +8,16 @@ const STACK_NAME = 'credentials';
 
 describe('ddb', () => {
     it('writes and reads from DynamoDB', async () => {
-        const aws = new AwsUtils()
+        const aws = new AwsUtils();
         const resources = await aws.listStackResources(STACK_NAME);
         const object = {
             name: 'test',
             value: datetime.create().format('Y-m-d H:I:S'),
             bool: true,
             otherBool: false,
-            number: 3.14
-        }
+            number: 3.14,
+            array: ['name', datetime.create().format('Y-m-d'), true, 3.14]
+        };
         const expression = 'begins_with(#n, :v1)';
         const values = { ':v1': 'test' };
         const names = { '#n': 'name'};
