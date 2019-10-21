@@ -24,7 +24,7 @@ declare namespace AwsUtils {
 
         read(table: string, key: any): Promise<any>;
 
-        scan(table: string, expression: string, values: _.Dictionary<any>, names: _.Dictionary<string>): _.Dictionary<any>[];
+        scan(table: string, expression: string, values: _.Dictionary<any>, names: _.Dictionary<string>): Promise<_.Dictionary<any>[]>;
     }
 
     export class SES {
