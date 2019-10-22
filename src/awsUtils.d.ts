@@ -30,7 +30,7 @@ declare namespace AwsUtils {
     export class SES {
         _register(aws: AwsUtils): void;
 
-        sendEmail(subject: string, messageBody: string, source: string, recipients: [string]): Promise<any>;
+        sendEmail(subject: string, messageBody: string, source: string, recipients: Array<string>): Promise<any>;
     }
 
     export class S3 {
