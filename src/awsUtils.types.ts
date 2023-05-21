@@ -27,5 +27,9 @@ describe('Typed AwsUtils', () => {
 
         let scanRes = await aws.ddb.scan(resources.credentialsTable, expression, values, names);
         expect(scanRes).to.eql([object]);
+
+        let scanAllRes = await aws.ddb.scanAll(resources.credentialsTable);
+        let testObject = scanAllRes.filter(obj => obj.name == 'test');
+        expect(testObject).to.eql([object]);
     });
 });

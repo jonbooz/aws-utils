@@ -12,6 +12,7 @@ module.exports = {
         aws.ddb.save = (table, object) => this._save(aws, table, object);
         aws.ddb.read = (table, key) => this._read(aws, table, key);
         aws.ddb.scan = (table, expression, values, names) => this._scan(aws, table, expression, values, names);
+        aws.ddb.scanAll = (table) => this._scanAll(aws, table);
     },
 
     /**
@@ -98,6 +99,19 @@ module.exports = {
             params.ExpressionAttributeNames = names
         }
 
+        return new Promise((resolve, reject) => {
+            aws.call('DynamoDB', 'scan', params)
+                .then(data => data.Items)
+                .then(items => items.map((i) => fromDynamoDBObject(i)))
+                .then(resolve)
+                .catch(reject);
+        });
+    },
+
+    _scanAll: function(aws, table) {
+        const params = {
+            TableName: table
+        };
         return new Promise((resolve, reject) => {
             aws.call('DynamoDB', 'scan', params)
                 .then(data => data.Items)

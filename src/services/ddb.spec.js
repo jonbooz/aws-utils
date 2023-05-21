@@ -103,5 +103,21 @@ describe('ddb', () => {
         expect(res).to.eql([JSON_OBJECT, JSON_OBJECT]);
     });
 
+    it('scans all from DynamoDB', async () => {
+        const expectedParams = {
+            TableName: TABLE,
+        };
+        
+        const scanStub = this.sandbox.stub(aws, 'call');
+        scanStub.withArgs('DynamoDB', 'scan', expectedParams)
+                .returns(new Promise((resolve, reject) => {
+                    resolve({ Items: [DYNAMO_OBJECT, DYNAMO_OBJECT]});
+                }));
+
+        const res = await ddb._scanAll(aws, TABLE);
+        expect(res).to.eql([JSON_OBJECT, JSON_OBJECT]);
+
+    });
+
 });
 
